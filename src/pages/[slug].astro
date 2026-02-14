@@ -16,11 +16,11 @@ interface Props {
 }
 
 const { letter } = Astro.props;
-const pageTitle = `💌 ${letter.from}'s Valentine for ${letter.to}`;
-const pageDescription = `${letter.from} sent ${letter.to} a Valentine's Music Box — open it and let the magic play!`;
+const pageTitle = `💌 From ${letter.from} to ${letter.to}`;
+const pageDescription = `${letter.from} sent ${letter.to} a love letter — open the music box and let the magic play!`;
 const canonicalUrl = new URL(
     `/${letter.slug}`,
-    Astro.site || "https://valentines.example.com",
+    Astro.site || "https://loveletters.dev",
 ).href;
 ---
 
@@ -31,6 +31,9 @@ const canonicalUrl = new URL(
     ogDescription={pageDescription}
     ogUrl={canonicalUrl}
     slug={letter.slug}
+    letterMode={true}
+    showNav={true}
+    navBackLabel={`← Back`}
 >
     <App client:only="solid-js" confPath={letter.confPath} slug={letter.slug} />
 </Layout>

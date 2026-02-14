@@ -23,19 +23,32 @@
 
   body {
     font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    overflow-x: hidden;
+    overflow-y: auto;
+    min-height: 100dvh;
+    background: #050208;
+    color: #fce7f3;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Letter pages: lock viewport for 3D experience */
+  body.letter-mode {
     overflow: hidden;
     width: 100vw;
     height: 100dvh;
-    background: #050208;
-    color: #fce7f3;
     touch-action: none;
     user-select: none;
     -webkit-user-select: none;
   }
 
-  #app-root {
+  body.letter-mode #app-root {
     width: 100%;
     height: 100%;
+    position: relative;
+  }
+
+  #app-root {
     position: relative;
   }
 
