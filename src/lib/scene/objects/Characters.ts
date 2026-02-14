@@ -2,7 +2,7 @@
  * Character builder 3.0 — Prince (white) & Princess (black) dancing center stage
  * Same dance, different people — the central romantic couple
  */
-import * as THREE from 'node_modules/@types/three';
+import * as THREE from 'three';
 import type { AppConfig } from '../../config';
 
 export interface CharacterGroup {

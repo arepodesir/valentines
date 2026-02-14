@@ -2,7 +2,7 @@
  * Rose Petal Particle System 3.0
  * Larger petals with better shapes, more visible, softer drift
  */
-import * as THREE from 'node_modules/@types/three';
+import * as THREE from 'three';
 
 export interface PetalSystem {
     points: THREE.Points;

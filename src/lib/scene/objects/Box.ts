@@ -5,7 +5,7 @@
  * - Better materials with env map reflections
  * - Decorative feet, hinges, lock plate
  */
-import * as THREE from 'node_modules/@types/three';
+import * as THREE from 'three';
 import type { AppConfig } from '../../config';
 
 export interface MusicBoxGroup {

@@ -1,7 +1,7 @@
 /**
  * MusicBoxScene 3.0 — Cinematic auto-play scene (robust build)
  */
-import * as THREE from 'node_modules/@types/three';
+import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { gsap } from 'gsap';
 import type { AppConfig } from '../config';
