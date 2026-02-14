@@ -1,0 +1,36 @@
+---
+import Layout from "../layouts/Layout.astro";
+import App from "../components/App.tsx";
+import { getAllLetters, type LetterMeta } from "../lib/letters";
+
+export function getStaticPaths() {
+    const letters = getAllLetters();
+    return letters.map((letter) => ({
+        params: { slug: letter.slug },
+        props: { letter },
+    }));
+}
+
+interface Props {
+    letter: LetterMeta;
+}
+
+const { letter } = Astro.props;
+const pageTitle = `💌 ${letter.from}'s Valentine for ${letter.to}`;
+const pageDescription = `${letter.from} sent ${letter.to} a Valentine's Music Box — open it and let the magic play!`;
+const canonicalUrl = new URL(
+    `/${letter.slug}`,
+    Astro.site || "https://valentines.example.com",
+).href;
+---
+
+<Layout
+    title={pageTitle}
+    description={pageDescription}
+    ogTitle={pageTitle}
+    ogDescription={pageDescription}
+    ogUrl={canonicalUrl}
+    slug={letter.slug}
+>
+    <App client:only="solid-js" confPath={letter.confPath} slug={letter.slug} />
+</Layout>

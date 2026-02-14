@@ -1,13 +1,14 @@
-import { type Component, onMount, createSignal } from 'solid-js';
+import { type Component, onMount, createSignal, Show } from 'solid-js';
 import type { AppConfig } from '../lib/config';
+import { ShareButtons } from './ShareButtons';
 
 interface Props {
   config: AppConfig;
+  slug?: string;
 }
 
 /**
- * Finale — Simple, elegant end card.
- * Shows the message from config, clearly visible.
+ * Finale — Simple, elegant end card with share buttons.
  */
 export const Finale: Component<Props> = (props) => {
   const [show, setShow] = createSignal(false);
@@ -81,7 +82,7 @@ export const Finale: Component<Props> = (props) => {
         </h1>
 
         <div
-          class="mt-8"
+          class="mt-6"
           style={{
             'opacity': textReveal() ? '0.5' : '0',
             'transition': 'opacity 2s ease 1.5s',
@@ -90,6 +91,39 @@ export const Finale: Component<Props> = (props) => {
           }}
         >
           ♥
+        </div>
+
+        {/* Share buttons */}
+        <Show when={props.slug}>
+          <div
+            class="mt-10 flex justify-center"
+            style={{
+              'opacity': textReveal() ? '1' : '0',
+              'transition': 'opacity 2s ease 2s',
+            }}
+          >
+            <ShareButtons
+              slug={props.slug!}
+              to={props.config.card.to}
+              from={props.config.card.from}
+            />
+          </div>
+        </Show>
+
+        {/* Create your own CTA */}
+        <div
+          class="mt-6"
+          style={{
+            'opacity': textReveal() ? '0.6' : '0',
+            'transition': 'opacity 2s ease 2.5s',
+          }}
+        >
+          <a
+            href="/"
+            class="text-xs tracking-wider uppercase text-pink-300/50 hover:text-pink-300 transition-colors"
+          >
+            Create your own valentine →
+          </a>
         </div>
       </div>
     </div>

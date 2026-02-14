@@ -9,12 +9,17 @@ import { LoadingScreen } from './LoadingScreen';
 
 export type AppPhase = 'loading' | 'envelope' | 'opening' | 'playing' | 'finale';
 
+interface AppProps {
+  confPath?: string;
+  slug?: string;
+}
+
 /**
  * App 3.0 — Auto-play driven architecture
  * After envelope opens, the scene takes over and plays by itself.
  * Music starts automatically, scene runs its own choreography.
  */
-const App: Component = () => {
+const App: Component<AppProps> = (props) => {
   const [config, setConfig] = createSignal<AppConfig | null>(null);
   const [phase, setPhase] = createSignal<AppPhase>('loading');
   const [audioEl, setAudioEl] = createSignal<HTMLAudioElement | null>(null);
@@ -26,7 +31,7 @@ const App: Component = () => {
   const [showScene, setShowScene] = createSignal(false);
 
   onMount(async () => {
-    const cfg = await loadConfig();
+    const cfg = await loadConfig(props.confPath || '/program.conf');
     setConfig(cfg);
     setTimeout(() => setPhase('envelope'), 1200);
   });
@@ -181,7 +186,7 @@ const App: Component = () => {
 
             {/* Finale */}
             <Show when={phase() === 'finale'}>
-              <Finale config={cfg()} />
+              <Finale config={cfg()} slug={props.slug} />
             </Show>
           </>
         )}

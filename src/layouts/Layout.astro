@@ -1,25 +1,58 @@
 ---
-import '../styles/global.css';
+import "../styles/global.css";
 
 interface Props {
   title?: string;
+  description?: string;
+  ogTitle?: string;
+  ogDescription?: string;
+  ogUrl?: string;
+  slug?: string;
 }
 
-const { title = "Valentine's Music Box 💕" } = Astro.props;
+const {
+  title = "Open Valentines 💌 — Shareable Music Box Love Letters",
+  description = "Create and share beautiful 3D Valentine's Music Box experiences. Open source, fully static, powered by love.",
+  ogTitle,
+  ogDescription,
+  ogUrl,
+  slug,
+} = Astro.props;
 ---
-<!DOCTYPE html>
+
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <meta name="description" content="A Valentine's Day 3D Music Box experience — open the box and let the music play." />
-  <meta name="theme-color" content="#e11d48" />
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💝</text></svg>" />
-  <title>{title}</title>
-</head>
-<body>
-  <div id="app-root">
-    <slot />
-  </div>
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#e11d48" />
+    <link
+      rel="icon"
+      href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💝</text></svg>"
+    />
+
+    <!-- Open Graph / Social Sharing -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={ogTitle || title} />
+    <meta property="og:description" content={ogDescription || description} />
+    {ogUrl && <meta property="og:url" content={ogUrl} />}
+    <meta property="og:image" content="/images/og-card.png" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={ogTitle || title} />
+    <meta name="twitter:description" content={ogDescription || description} />
+    <meta name="twitter:image" content="/images/og-card.png" />
+
+    <title>{title}</title>
+  </head>
+  <body>
+    <div id="app-root">
+      <slot />
+    </div>
+  </body>
 </html>

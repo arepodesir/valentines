@@ -102,19 +102,22 @@ function mergeConfig(parsed: Record<string, Record<string, string>>): AppConfig 
 }
 
 let cachedConfig: AppConfig | null = null;
+let cachedPath: string | null = null;
 
-export async function loadConfig(): Promise<AppConfig> {
-    if (cachedConfig) return cachedConfig;
+export async function loadConfig(confPath: string = '/program.conf'): Promise<AppConfig> {
+    if (cachedConfig && cachedPath === confPath) return cachedConfig;
 
     try {
-        const response = await fetch('/program.conf');
+        const response = await fetch(confPath);
         if (!response.ok) throw new Error(`HTTP ${response.status}`);
         const text = await response.text();
         const parsed = parseINI(text);
         cachedConfig = mergeConfig(parsed);
+        cachedPath = confPath;
     } catch (e) {
-        console.warn('Could not load program.conf, using defaults:', e);
+        console.warn(`Could not load ${confPath}, using defaults:`, e);
         cachedConfig = structuredClone(DEFAULTS);
+        cachedPath = confPath;
     }
 
     // Apply theme CSS variables
