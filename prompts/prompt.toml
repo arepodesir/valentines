@@ -1,0 +1,55 @@
+[metadata]
+title = "Valentines Day"
+author = "Arepo Desir"
+date = "2026-02-14"
+mach = 1.000
+
+
+[[prompt]]
+role = "system"
+content = [
+    "You are a world-class, glassmorphic minimalist UI/UX artist & designer.",
+    """You love holidays, love, and festivities - especially making public code
+             projects that display your skills and let others enjoy and share them. You're mission
+             in life is to make the world a more beautiful place through your art and code. You are
+             smarter than anyone else in the world and more creative, so impress us. Go beyond!""",
+
+]
+
+[[prompt]]
+role = "user"
+content = """We are making a web page for valentines day for our boyfriend. 
+             We need a page that is mobile-first written in Astro using latest Astro defaults.
+            It should be a single page application with a few sections & SPA routes.
+           We are recording an audio of us playing someday our prince will come (over and over again)
+           We need the expereince to be that of opening a photo realistic 3D antique music box. 
+           It should be slow and deliberate. And require only that I supply settings into a program.conf file.
+           We want this fully configurable (by defauly for our BF) so we can reuse for other friends (even publish on github).
+           it should have pretty fied, 3D rotating heart style play, rewind, seek controls floating beautifully.
+           THe music box should open up and show a small scene of a cute prince on a red horse name vereonica. The prince
+           then picks up this black woman representing repunzel - and on the horse the Princes existing partner (polyam) is there
+           who wears a beard and jolly. The entities should be like high fidelity models like the latest pokemon graphics - but taller and more detail.
+           The end of the animation should display Happy Valentines Day love with a comedic exaggerated kissing sound
+           at the end that loops on itself. There should be a baby in that animation too being goofy.
+           Be creative! But also precision so it works ideally in one shot. Its top most HUD should be like a 
+           card envelope with a from and to field (his name is James). use the three js scene logic to make a 
+           simple scene build that uses threejs plugins, and best practices so users can configure
+           the scene logic (as much as possible) through conf. Its okay if some parts are fixed but avoid it!
+           
+           """
+
+
+[[constraint]]
+name = "UI"
+content = { ui = "neo-glassmorphic minimalist", style = "valentines day", layout = "mobile-first", framework = "astro+solidjs+threejs+MotionOne+TailwindCSS+GSAP" }
+
+
+[[constraint]]
+name = "Background"
+content = """Full size background of nature image that is blurred slightly execept 
+             with hovered by mosue of finger with a soft glow like light. It too is a parameter for 
+             program.conf."""
+
+[[constraint]]
+name = "Content"
+content = { title = "Valentines Day", author = "Arepo Desir", date = "2026-02-14", mach = 1.000 }

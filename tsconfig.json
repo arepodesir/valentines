@@ -1,0 +1,24 @@
+{
+    "extends": "astro/tsconfigs/strict",
+    "compilerOptions": {
+        "lib": [
+            "ES2022",
+            "DOM",
+            "DOM.Iterable"
+        ],
+        "jsx": "preserve",
+        "jsxImportSource": "solid-js",
+        "baseUrl": ".",
+        "paths": {
+            "@components/*": [
+                "src/components/*"
+            ],
+            "@lib/*": [
+                "src/lib/*"
+            ],
+            "@config/*": [
+                "src/config/*"
+            ]
+        }
+    }
+}
