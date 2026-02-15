@@ -1,24 +1,13 @@
 {
     "extends": "astro/tsconfigs/strict",
     "compilerOptions": {
-        "lib": [
-            "ES2022",
-            "DOM",
-            "DOM.Iterable"
-        ],
+        "strict": true,
         "jsx": "preserve",
         "jsxImportSource": "solid-js",
-        "baseUrl": ".",
-        "paths": {
-            "@components/*": [
-                "src/components/*"
-            ],
-            "@lib/*": [
-                "src/lib/*"
-            ],
-            "@config/*": [
-                "src/config/*"
-            ]
-        }
+        "target": "es2022",
+        "module": "esnext",
+        "moduleResolution": "bundler",
+        "skipLibCheck": true,
+        "verbatimModuleSyntax": true
     }
 }

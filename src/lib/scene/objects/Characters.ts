@@ -485,13 +485,19 @@ function createHorse(name: string): THREE.Group {
     return horse;
 }
 
+const parseColor = (color: string, fallback: number): number => {
+    if (!color) return fallback;
+    if (color.startsWith('#')) return parseInt(color.replace('#', '0x'), 16);
+    return fallback;
+};
+
 export function createCharacters(config: AppConfig): CharacterGroup {
     const group = new THREE.Group();
 
     // Platform / turntable
     const platformGeo = new THREE.CylinderGeometry(1.25, 1.25, 0.1, 48);
     const platformMat = new THREE.MeshStandardMaterial({
-        color: 0x8b0020, roughness: 0.8, metalness: 0.05,
+        color: 0x8b0020, roughness: 0.9, metalness: 0.0, // Paper matte
     });
     const platform = new THREE.Mesh(platformGeo, platformMat);
     platform.position.y = 0.05;
@@ -501,22 +507,24 @@ export function createCharacters(config: AppConfig): CharacterGroup {
     // Gold ring
     const ringGeo = new THREE.TorusGeometry(1.25, 0.025, 8, 48);
     const ringMat = new THREE.MeshStandardMaterial({
-        color: 0xfbbf24, metalness: 0.9, roughness: 0.15, envMapIntensity: 1.0,
+        color: 0xfbbf24, metalness: 0.6, roughness: 0.4, envMapIntensity: 0.8, // Foiled paper
     });
     const ring = new THREE.Mesh(ringGeo, ringMat);
     ring.rotation.x = Math.PI / 2;
     ring.position.y = 0.1;
     group.add(ring);
 
+    const c = config.characters;
+
     // ═══════════════════════════════════════
     // ★ PRINCE (white) — center stage left
     // ═══════════════════════════════════════
     const prince = createFigure({
-        skinColor: 0xf5deb3,     // Fair/white skin
-        hairColor: 0x3b2414,     // Dark brown hair
-        outfitColor: 0x1e3a8a,   // Royal blue suit
+        skinColor: parseColor(c.prince_skin, 0xf5deb3),
+        hairColor: parseColor(c.prince_hair, 0x3b2414),
+        outfitColor: parseColor(c.prince_outfit, 0x1e3a8a),
         height: 1.5,
-        crownColor: 0xfbbf24,    // Gold crown
+        crownColor: 0xfbbf24,
     });
     prince.position.set(-0.35, 0.1, 0.1);
     prince.rotation.y = 0.2;
@@ -527,15 +535,15 @@ export function createCharacters(config: AppConfig): CharacterGroup {
     // ★ PRINCESS (black) — center stage right
     // ═══════════════════════════════════════
     const rapunzel = createFigure({
-        skinColor: 0x6b3e26,     // Dark/black skin
-        hairColor: 0x1a1a2e,     // Very dark hair
-        outfitColor: 0xd946ef,   // Magenta/purple gown
+        skinColor: parseColor(c.princess_skin, 0x6b3e26),
+        hairColor: parseColor(c.princess_hair, 0x1a1a2e),
+        outfitColor: parseColor(c.princess_outfit, 0xd946ef),
         height: 1.4,
         longHair: true,
-        hairAccessory: 0xf472b6, // Pink flower
-        crownColor: 0xc0c0c0,    // Silver tiara
-        isDress: true,           // Flowing gown
-        dressColor: 0xd946ef,
+        hairAccessory: 0xf472b6,
+        crownColor: 0xc0c0c0,
+        isDress: true,
+        dressColor: parseColor(c.princess_outfit, 0xd946ef),
     });
     rapunzel.position.set(0.35, 0.1, 0.1);
     rapunzel.rotation.y = -0.2;
@@ -543,12 +551,12 @@ export function createCharacters(config: AppConfig): CharacterGroup {
     group.add(rapunzel);
 
     // ═══════════════════════════════════════
-    // ★ PARTNER — center stage, with the couple
+    // ★ PARTNER & FAMILY (Defaults for now, extendable)
     // ═══════════════════════════════════════
     const partner = createFigure({
         skinColor: 0xf0d5b0,
         hairColor: 0x8b4513,
-        outfitColor: 0x059669,   // Emerald green
+        outfitColor: 0x059669,
         height: 1.5,
         hasBeard: true,
     });
@@ -557,27 +565,21 @@ export function createCharacters(config: AppConfig): CharacterGroup {
     partner.scale.setScalar(0.85);
     group.add(partner);
 
-    // ═══════════════════════════════════════
-    // ★ BABY — full size, extra cute, with the family
-    // ═══════════════════════════════════════
     const baby = createFigure({
-        skinColor: 0xd4a574,     // Warm brown skin
-        hairColor: 0x2d1b0e,     // Dark curly hair
-        outfitColor: 0xfbbf24,   // Sunny gold onesie
-        height: 1.0,             // Full size but shorter stature
+        skinColor: 0xd4a574,
+        hairColor: 0x2d1b0e,
+        outfitColor: 0xfbbf24,
+        height: 1.0,
         isBaby: true,
     });
-    baby.position.set(0.0, 0.1, 0.0);     // Center of the group
-    baby.scale.setScalar(0.85);             // Full adult scale
+    baby.position.set(0.0, 0.1, 0.0);
+    baby.scale.setScalar(0.85);
     group.add(baby);
 
-    // ═══════════════════════════════════════
-    // ★ ELDER WOMAN — background, same size as adults
-    // ═══════════════════════════════════════
     const elder = createFigure({
-        skinColor: 0xd4a07a,     // Warm medium skin
-        hairColor: 0xc0c0c0,     // Silver/grey hair
-        outfitColor: 0x7c3aed,   // Deep purple dress
+        skinColor: 0xd4a07a,
+        hairColor: 0xc0c0c0,
+        outfitColor: 0x7c3aed,
         height: 1.4,
         longHair: true,
         isDress: true,

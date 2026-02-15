@@ -1,0 +1,151 @@
+---
+import DocLayout from "../../layouts/DocLayout.astro";
+---
+
+<DocLayout
+    title="Business Strategy"
+    description="The Hearth Economic Model: Perpetual Storage, NFTs, and Artist Earnings."
+    breadcrumb="Business"
+    emoji="💎"
+>
+    <div class="intro">
+        <p>
+            Hearth operates on a "Free to Create, Pay to Preserve" model,
+            evolving the traditional greeting card industry into a permanent
+            digital asset class. We align incentives between users, artists, and
+            the platform through Web3 technology.
+        </p>
+    </div>
+
+    <h2>1. The "Hearth Stone" (NFT) Model</h2>
+    <p>
+        Unlike traditional e-cards that disappear when a server bill isn't paid,
+        Hearth messages are designed to be permanent. Users can "crystallize"
+        any message into a <strong>Hearth Stone</strong> — an NFT on the Polygon/Arweave
+        network.
+    </p>
+
+    <div class="glass-panel p-6 my-8 border border-white/10 rounded-xl">
+        <h3 class="text-xl font-bold text-accent mb-4">
+            💎 Standard Stone ($5)
+        </h3>
+        <ul class="space-y-2 text-sm text-white/70">
+            <li>
+                ✅ <strong>Permanent Storage</strong>: Message config & assets
+                pinned to Arweave.
+            </li>
+            <li>
+                ✅ <strong>Ownership</strong>: The message is a transferable
+                digital asset.
+            </li>
+            <li>
+                ✅ <strong>Zero Ads</strong>: Receiver sees a pristine, premium
+                experience.
+            </li>
+        </ul>
+    </div>
+
+    <div
+        class="glass-panel p-6 my-8 border border-gold/30 rounded-xl"
+        style="background: rgba(251, 191, 36, 0.05);"
+    >
+        <h3 class="text-xl font-bold text-gold mb-4">
+            👑 Eternal Stone ($20+)
+        </h3>
+        <ul class="space-y-2 text-sm text-white/70">
+            <li>✅ <strong>Everything in Standard</strong></li>
+            <li>
+                ✅ <strong>Custom URL</strong>: <code
+                    >hearth.com/aria+james</code>
+            </li>
+            <li>
+                ✅ <strong>Future-Proofing</strong>: Endowment fund to migrate
+                data if protocol fails.
+            </li>
+            <li>
+                ✅ <strong>Physical Backup</strong>: Laser-etched QR code card
+                sent via mail.
+            </li>
+        </ul>
+    </div>
+
+    <h2>2. Artist Marketplace</h2>
+    <p>
+        Hearth is an open platform. 3D artists and musicians can contribute
+        assets to the ecosystem and earn royalties.
+    </p>
+    <ul>
+        <li>
+            <strong>Themes</strong>: Artists upload GLB scenes. When a user
+            mints a message using that theme, the artist gets 30%.
+        </li>
+        <li>
+            <strong>Audio</strong>: Musicians upload ambient tracks. Smart
+            contracts automate royalty splits.
+        </li>
+        <li>
+            <strong>Templates</strong>: Curated "best practice" message
+            templates for specific occasions.
+        </li>
+    </ul>
+
+    <h2>3. White Label & Enterprise</h2>
+    <p>Hearth Engine is licensed to high-volume institutional senders.</p>
+    <ul>
+        <li>
+            <strong>Condolence Books</strong>: Funeral homes offering permanent
+            digital memorials.
+        </li>
+        <li>
+            <strong>Corporate Gifting</strong>: HR platforms automating work
+            anniversaries with high-touch digital assets.
+        </li>
+        <li>
+            <strong>Event Invites</strong>: Wedding planners creating
+            RSPV-enabled 3D scenes.
+        </li>
+    </ul>
+
+    <h2>4. The "Hallmark 2.0" Vision</h2>
+    <p>
+        We are not selling files; we are selling <strong
+            >emotional permanence</strong
+        >. Just as a physical letter is treasured for decades, a Hearth message
+        is built to last. By using decentralized storage, we ensure that even if
+        Hearth (the company) disappears, the messages remain.
+    </p>
+</DocLayout>
+
+<style>
+    .intro {
+        font-size: 1.1em;
+        line-height: 1.6;
+        color: rgba(255, 255, 255, 0.9);
+        margin-bottom: 2rem;
+        padding-bottom: 2rem;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    strong {
+        color: var(--color-gold);
+    }
+    h2 {
+        color: var(--color-accent);
+        font-family: "Playfair Display", serif;
+        margin-top: 3rem;
+        margin-bottom: 1rem;
+    }
+    ul {
+        padding-left: 1rem;
+        list-style: none;
+    }
+    li {
+        margin-bottom: 0.5rem;
+        position: relative;
+    }
+    li::before {
+        content: "•";
+        color: var(--color-accent);
+        position: absolute;
+        left: -1rem;
+    }
+</style>

@@ -1,131 +1,23 @@
-import { type Component, onMount, createSignal, Show } from 'solid-js';
+import { type Component, Show, createSignal } from 'solid-js';
 import type { AppConfig } from '../lib/config';
-import { ShareButtons } from './ShareButtons';
 
 interface Props {
   config: AppConfig;
   slug?: string;
 }
 
-/**
- * Finale — Simple, elegant end card with share buttons.
- */
-export const Finale: Component<Props> = (props) => {
-  const [show, setShow] = createSignal(false);
-  const [textReveal, setTextReveal] = createSignal(false);
-
-  onMount(() => {
-    setTimeout(() => setShow(true), 200);
-    setTimeout(() => setTextReveal(true), 1200);
-    if ('vibrate' in navigator) navigator.vibrate(20);
-  });
-
-  // Soft floating particles
-  const particles = Array.from({ length: 18 }).map(() => ({
-    left: Math.random() * 100,
-    delay: Math.random() * 6,
-    duration: 6 + Math.random() * 8,
-    size: 2 + Math.random() * 3,
-    opacity: 0.15 + Math.random() * 0.2,
-  }));
-
-  return (
-    <div class="fixed inset-0 z-50 flex flex-col items-center justify-center overflow-hidden">
-      {/* Gradient backdrop */}
-      <div
-        class="absolute inset-0 transition-opacity duration-[2000ms]"
-        style={{
-          'background': 'radial-gradient(ellipse at 50% 45%, rgba(77,0,25,0.85), rgba(10,3,21,0.97))',
-          'opacity': show() ? '1' : '0',
-        }}
-      />
-
-      {/* Soft particles */}
-      <div class="absolute inset-0 pointer-events-none"
-        style={{ 'opacity': show() ? '0.5' : '0', 'transition': 'opacity 2s ease' }}
-      >
-        {particles.map((p) => (
-          <div
-            class="absolute rounded-full"
-            style={{
-              'left': `${p.left}%`,
-              'bottom': '-2%',
-              'width': `${p.size}px`,
-              'height': `${p.size}px`,
-              'background': `radial-gradient(circle, rgba(244,114,182,${p.opacity}), rgba(251,191,36,${p.opacity * 0.5}))`,
-              'animation': `floatUp ${p.duration}s ease-out ${p.delay}s infinite`,
-            }}
-          />
-        ))}
-      </div>
-
-      {/* Main message — simple, visible */}
-      <div
-        class="relative z-10 text-center px-8 max-w-lg"
-        style={{
-          'opacity': show() ? '1' : '0',
-          'transform': show() ? 'translateY(0)' : 'translateY(30px)',
-          'transition': 'all 2s cubic-bezier(0.16, 1, 0.3, 1)',
-        }}
-      >
-        <h1
-          class="font-display text-4xl md:text-6xl font-bold leading-tight"
-          style={{
-            'opacity': textReveal() ? '1' : '0',
-            'transform': textReveal() ? 'translateY(0)' : 'translateY(15px)',
-            'transition': 'all 1.8s cubic-bezier(0.16, 1, 0.3, 1)',
-            'color': '#f9a8d4',
-            'text-shadow': '0 2px 20px rgba(244,63,94,0.4), 0 0 40px rgba(251,191,36,0.15)',
-          }}
-        >
-          {props.config.finale.message}, {props.config.card.to}
-        </h1>
-
-        <div
-          class="mt-6"
-          style={{
-            'opacity': textReveal() ? '0.5' : '0',
-            'transition': 'opacity 2s ease 1.5s',
-            'color': '#f472b6',
-            'font-size': '1.5rem',
-          }}
-        >
-          ♥
-        </div>
-
-        {/* Share buttons */}
-        <Show when={props.slug}>
-          <div
-            class="mt-10 flex justify-center"
-            style={{
-              'opacity': textReveal() ? '1' : '0',
-              'transition': 'opacity 2s ease 2s',
-            }}
-          >
-            <ShareButtons
-              slug={props.slug!}
-              to={props.config.card.to}
-              from={props.config.card.from}
-            />
-          </div>
-        </Show>
-
-        {/* Create your own CTA */}
-        <div
-          class="mt-6"
-          style={{
-            'opacity': textReveal() ? '0.6' : '0',
-            'transition': 'opacity 2s ease 2.5s',
-          }}
-        >
-          <a
-            href="/"
-            class="text-xs tracking-wider uppercase text-pink-300/50 hover:text-pink-300 transition-colors"
-          >
-            Create your own valentine →
-          </a>
-        </div>
-      </div>
+export const Finale: Component<Props> = (props) => (
+  <div class="fixed inset-0 z-40 bg-black/60 backdrop-blur-md flex flex-col items-center justify-center text-white text-center p-6 animate-in fade-in duration-1000">
+    <h1 class="text-5xl font-serif font-bold mb-4 text-pink-500 animate-float">{props.config.finale.message}</h1>
+    <p class="text-xl text-white/80 mb-8">{props.config.finale.subtitle}</p>
+    
+    <div class="flex gap-4">
+      <button onClick={() => window.location.reload()} class="px-6 py-3 bg-white/10 rounded-full hover:bg-white/20 transition">Replay</button>
+      <a href="/create" class="px-6 py-3 bg-pink-600 rounded-full hover:bg-pink-500 transition font-bold">Create Your Own</a>
     </div>
-  );
-};
+
+    <Show when={props.slug}>
+       <p class="mt-8 text-xs text-white/30">ID: {props.slug}</p>
+    </Show>
+  </div>
+);

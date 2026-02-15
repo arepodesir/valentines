@@ -1,0 +1,160 @@
+---
+import DocLayout from "../../layouts/DocLayout.astro";
+---
+
+<DocLayout
+    title="Architecture"
+    description="Under the hood of Hearth: Effect.ts, Three.js, and FSM-driven logic."
+    breadcrumb="Architecture"
+    emoji="⚙️"
+>
+    <div class="intro">
+        <p>
+            Hearth is built on a modern, type-safe stack designed for
+            performance, correctness, and longevity. We use Functional
+            Programming (FP) principles to ensure the core logic is robust, and
+            a component-based approach for UI flexibility.
+        </p>
+    </div>
+
+    <h2>1. Technology Stack</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 my-8">
+        <div class="glass-panel p-6 border border-white/10 rounded-xl">
+            <h3 class="text-xl font-bold text-accent mb-2">Frontend Core</h3>
+            <ul class="text-sm text-white/70 space-y-1">
+                <li>
+                    <strong>Astro</strong>: Static Site Generation (SSG) for
+                    fast routing and zero-JS initial load.
+                </li>
+                <li>
+                    <strong>SolidJS</strong>: High-performance, fine-grained
+                    reactivity for UI islands.
+                </li>
+                <li>
+                    <strong>TailwindCSS</strong>: Utility-first styling with
+                    custom plugin system.
+                </li>
+            </ul>
+        </div>
+        <div class="glass-panel p-6 border border-white/10 rounded-xl">
+            <h3 class="text-xl font-bold text-accent mb-2">Engine</h3>
+            <ul class="text-sm text-white/70 space-y-1">
+                <li>
+                    <strong>Three.js</strong>: WebGL renderer for the 3D Music
+                    Box scene.
+                </li>
+                <li>
+                    <strong>GSAP</strong>: Timeline-based animation
+                    orchestration.
+                </li>
+                <li>
+                    <strong>Effect.ts</strong>: Functional error handling,
+                    dependency injection, and resource management.
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <h2>2. The FSM Config Parser</h2>
+    <p>
+        At the heart of Hearth is the <code>.conf</code> format — a simple, human-readable
+        INI dialect that defines universal message parameters. We parse this using
+        a strict <strong>Finite State Machine (FSM)</strong>.
+    </p>
+    <pre
+        class="bg-black/40 p-4 rounded-lg text-xs font-mono text-white/80 overflow-x-auto border border-white/10">
+// State Definitions
+type FSMState = 'IDLE' | 'SECTION' | 'KV';
+
+// Transitions
+IDLE -> SECTION ("[header]")
+SECTION -> KV (key=value)
+KV -> KV (key=value)
+KV -> SECTION ("[header]")
+</pre>
+    <p>
+        This ensures that invalid configs fail gracefully with precise line
+        numbers, and allows us to extend the schema without breaking legacy
+        parsers.
+    </p>
+
+    <h2>3. Reactivity Model</h2>
+    <p>
+        Hearth uses SolidJS signals for state management. The <code
+            >App.tsx</code
+        > component orchestrates the entire lifecycle:
+    </p>
+    <ol class="list-decimal pl-5 space-y-2 mt-4 text-white/70">
+        <li>
+            <strong>Loading Phase</strong>: Parallel fetch of config, audio, and
+            texture assets.
+        </li>
+        <li>
+            <strong>Envelope Phase</strong>: Static HTML/CSS envelope
+            interactive layer.
+        </li>
+        <li>
+            <strong>Scene Phase</strong>: 3D Canvas initialization. The <code
+                >MusicBoxScene</code
+            > class manages its own Three.js render loop but reacts to Solid props.
+        </li>
+        <li>
+            <strong>Finale Phase</strong>: Cleanup of WebGL context and
+            transition to end card.
+        </li>
+    </ol>
+
+    <h2>4. Decentralized Future</h2>
+    <p>
+        We are decoupling the data from the presentation logic. A Hearth message
+        is just a JSON/Config object. This object can live on:
+    </p>
+    <ul>
+        <li>LocalStorage (Drafts)</li>
+        <li>Static Files (Current)</li>
+        <li>IPFS / Arweave (Immutable)</li>
+        <li>GunDB / P2P (Live Collaboration)</li>
+    </ul>
+    <p>
+        The renderer (this app) is just a viewer for that data. This
+        "Viewer/Data Separation" ensures that messages can outlive the platform
+        itself.
+    </p>
+</DocLayout>
+
+<style>
+    .intro {
+        font-size: 1.1em;
+        line-height: 1.6;
+        color: rgba(255, 255, 255, 0.9);
+        margin-bottom: 2rem;
+        padding-bottom: 2rem;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    h2 {
+        color: var(--color-accent);
+        font-family: "Playfair Display", serif;
+        margin-top: 3rem;
+        margin-bottom: 1rem;
+    }
+    h3 {
+        font-family: "Playfair Display", serif;
+    }
+    strong {
+        color: var(--color-gold);
+    }
+    ul {
+        padding-left: 1rem;
+        list-style: none;
+    }
+    li {
+        margin-bottom: 0.5rem;
+        position: relative;
+    }
+    li::before {
+        content: "•";
+        color: var(--color-accent);
+        position: absolute;
+        left: -1rem;
+    }
+</style>

@@ -1,39 +1,30 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import App from "../components/App.tsx";
-import { getAllLetters, type LetterMeta } from "../lib/letters";
+import App from "../components/App";
+import { getAllLetters } from "../lib/letters";
 
-export function getStaticPaths() {
+export async function getStaticPaths() {
     const letters = getAllLetters();
     return letters.map((letter) => ({
         params: { slug: letter.slug },
-        props: { letter },
+        props: { confPath: `/letters/${letter.slug}.conf` },
     }));
 }
 
-interface Props {
-    letter: LetterMeta;
-}
-
-const { letter } = Astro.props;
-const pageTitle = `💌 From ${letter.from} to ${letter.to}`;
-const pageDescription = `${letter.from} sent ${letter.to} a love letter — open the music box and let the magic play!`;
-const canonicalUrl = new URL(
-    `/${letter.slug}`,
-    Astro.site || "https://loveletters.dev",
-).href;
+const { slug } = Astro.params;
+const { confPath } = Astro.props;
 ---
 
 <Layout
-    title={pageTitle}
-    description={pageDescription}
-    ogTitle={pageTitle}
-    ogDescription={pageDescription}
-    ogUrl={canonicalUrl}
-    slug={letter.slug}
-    letterMode={true}
-    showNav={true}
-    navBackLabel={`← Back`}
+    title={`Message for You - Hearth`}
+    description="A personal 3D message waiting for you."
 >
-    <App client:only="solid-js" confPath={letter.confPath} slug={letter.slug} />
+    <main class="w-full h-[100dvh] overflow-hidden bg-black text-white">
+        <App client:only="solid-js" slug={slug} confPath={confPath} />
+    </main>
 </Layout>
+
+<script is:inline>
+    // Add letter-mode class to body for UI adjustments
+    document.body.classList.add("letter-mode");
+</script>

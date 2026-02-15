@@ -1,13 +1,21 @@
-/**
- * Configuration parser for program.conf
- * Fetches INI-style config at runtime and provides typed access
- */
+import { Effect, Data, Context } from "effect";
+import * as S from "effect/Schema";
+
+// ─── TYPES ───
+
+export type Occasion =
+    | 'valentine' | 'birthday' | 'anniversary' | 'thankyou' | 'congratulations'
+    | 'graduation' | 'wedding' | 'condolence' | 'remembrance' | 'timecapsule'
+    | 'public' | 'general';
+
+export type SceneTheme = 'fairytale' | 'garden' | 'winter' | 'cosmic' | 'classic' | 'memorial' | 'aurora';
 
 export interface AppConfig {
     card: {
         from: string;
         to: string;
         message: string;
+        occasion: Occasion;
     };
     audio: {
         src: string;
@@ -21,11 +29,18 @@ export interface AppConfig {
         glow_intensity: number;
     };
     scene: {
-        horse_name: string;
+        theme: SceneTheme;
         animation_speed: number;
     };
+    characters: {
+        prince_skin: string;
+        prince_hair: string;
+        prince_outfit: string;
+        princess_skin: string;
+        princess_hair: string;
+        princess_outfit: string;
+    };
     finale: {
-        kiss_sound: string;
         message: string;
         subtitle: string;
     };
@@ -36,101 +51,96 @@ export interface AppConfig {
         glass_opacity: number;
         glass_blur: number;
     };
+    timecapsule: {
+        unlock_date?: string;
+        locked_message?: string;
+    };
+    storage?: {
+        mode: 'static' | 'p2p' | 'hybrid';
+        ipfs_hash?: string;
+    };
 }
 
-const DEFAULTS: AppConfig = {
-    card: { from: 'Someone Special', to: 'My Love', message: 'Happy Valentine\'s Day!' },
-    audio: { src: '/audio/music.mp3', autoplay: true, loop: true },
-    background: { image: '/images/nature.jpg', blur: 6, glow_radius: 120, glow_intensity: 0.4 },
-    scene: { horse_name: 'Veronica', animation_speed: 1.0 },
-    finale: { kiss_sound: '/audio/kiss.mp3', message: 'Happy Valentine\'s Day', subtitle: 'with all our love 💕' },
-    theme: { primary: '#e11d48', accent: '#f472b6', gold: '#fbbf24', glass_opacity: 0.15, glass_blur: 16 },
+// ─── META DATA ───
+
+export const OCCASION_META: Record<Occasion, { emoji: string; label: string; tone: string; defaultMessage: string }> = {
+    valentine: { emoji: '🌹', label: 'Affection', tone: 'remark_crimson', defaultMessage: 'My Dearest,' },
+    birthday: { emoji: '🕯️', label: 'Milestone', tone: 'remark_gold', defaultMessage: 'On this day,' },
+    anniversary: { emoji: '💍', label: 'Union', tone: 'remark_obsidian', defaultMessage: 'To our journey,' },
+    thankyou: { emoji: '🖋️', label: 'Gratitude', tone: 'remark_cream', defaultMessage: 'With deepest thanks,' },
+    congratulations: { emoji: '🥂', label: 'Triumph', tone: 'remark_gold', defaultMessage: 'A toast to you,' },
+    graduation: { emoji: '🎓', label: 'Commencement', tone: 'remark_obsidian', defaultMessage: 'The world awaits,' },
+    wedding: { emoji: '🔔', label: 'Covenant', tone: 'remark_cream', defaultMessage: 'Two souls, one path,' },
+    condolence: { emoji: '🕊️', label: 'Remembrance', tone: 'remark_solemn', defaultMessage: 'In honored memory,' },
+    remembrance: { emoji: '🕯️', label: 'Legacy', tone: 'remark_solemn', defaultMessage: 'Your light remains,' },
+    timecapsule: { emoji: '⏳', label: 'Time Capsule', tone: 'remark_mystic', defaultMessage: 'For the future,' },
+    public: { emoji: '🏛️', label: 'Public Ledger', tone: 'remark_neutral', defaultMessage: 'To whom it may concern,' },
+    general: { emoji: '📜', label: 'Correspondence', tone: 'remark_neutral', defaultMessage: 'Greetings,' },
 };
 
-function parseINI(text: string): Record<string, Record<string, string>> {
-    const result: Record<string, Record<string, string>> = {};
+export const SCENE_THEME_META: Record<SceneTheme, { label: string; fogColor: number; ambientColor: number }> = {
+    fairytale: { label: 'Remark Gilded', fogColor: 0x2C1810, ambientColor: 0xD4AF37 },
+    garden: { label: 'Remark Garden', fogColor: 0x1a472a, ambientColor: 0xFDFBF7 },
+    winter: { label: 'Remark Frost', fogColor: 0xe0f2fe, ambientColor: 0xD4AF37 },
+    cosmic: { label: 'Remark Void', fogColor: 0x050208, ambientColor: 0x4B0082 },
+    classic: { label: 'Remark Vellum', fogColor: 0xFDFBF7, ambientColor: 0xffffff },
+    memorial: { label: 'Remark Obsidian', fogColor: 0x000000, ambientColor: 0x333333 },
+    aurora: { label: 'Remark Aurora', fogColor: 0x000000, ambientColor: 0x00ffcc },
+};
+
+// ─── PARSER ───
+
+export class ConfigParseError extends Data.TaggedError("ConfigParseError")<{ message: string }> { }
+
+export const loadConfig = (path: string) => Effect.runPromise(
+    Effect.tryPromise({
+        try: async () => {
+            const res = await fetch(path);
+            if (!res.ok) throw new Error(`Failed to load config: ${res.status}`);
+            const text = await res.text();
+            return parseConf(text);
+        },
+        catch: (e) => new ConfigParseError({ message: String(e) })
+    })
+);
+
+function parseConf(text: string): AppConfig {
+    const config: any = {
+        card: {}, audio: {}, background: {}, scene: {}, characters: {},
+        finale: {}, theme: {}, timecapsule: {}, storage: {}
+    };
+
     let currentSection = '';
+    const lines = text.split('\n');
 
-    for (const raw of text.split('\n')) {
-        const line = raw.trim();
-        if (!line || line.startsWith('#') || line.startsWith(';')) continue;
+    for (const line of lines) {
+        const trimmed = line.trim();
+        if (!trimmed || trimmed.startsWith(';')) continue;
 
-        const sectionMatch = line.match(/^\[([^\]]+)\]$/);
-        if (sectionMatch) {
-            currentSection = sectionMatch[1];
-            if (!result[currentSection]) result[currentSection] = {};
+        if (trimmed.startsWith('[')) {
+            currentSection = trimmed.slice(1, -1);
             continue;
         }
 
-        const kvMatch = line.match(/^([^=]+)=(.*)$/);
-        if (kvMatch && currentSection) {
-            result[currentSection][kvMatch[1].trim()] = kvMatch[2].trim();
-        }
-    }
+        const [key, val] = trimmed.split('=').map(s => s.trim());
+        if (currentSection && key && val) {
+            let processedVal: any = val;
+            if (val === 'true') processedVal = true;
+            else if (val === 'false') processedVal = false;
+            else if (!isNaN(Number(val))) processedVal = Number(val);
+            else if (val.startsWith('"') && val.endsWith('"')) processedVal = val.slice(1, -1);
 
-    return result;
-}
-
-function coerce(value: string): string | number | boolean {
-    // TOML: strip surrounding quotes from string values
-    if ((value.startsWith('"') && value.endsWith('"')) ||
-        (value.startsWith("'") && value.endsWith("'"))) {
-        return value.slice(1, -1);
-    }
-    if (value === 'true') return true;
-    if (value === 'false') return false;
-    const num = Number(value);
-    if (!isNaN(num) && value !== '') return num;
-    return value;
-}
-
-function mergeConfig(parsed: Record<string, Record<string, string>>): AppConfig {
-    const config = structuredClone(DEFAULTS);
-
-    for (const [section, values] of Object.entries(parsed)) {
-        if (section in config) {
-            const target = config[section as keyof AppConfig] as Record<string, unknown>;
-            for (const [key, rawValue] of Object.entries(values)) {
-                if (key in target) {
-                    target[key] = coerce(rawValue);
-                }
+            // Handle hex colors as strings
+            if (typeof processedVal === 'string' && processedVal.startsWith('#')) {
+                // nothing special needed
             }
+
+            if (!config[currentSection]) config[currentSection] = {};
+            config[currentSection][key] = processedVal;
         }
     }
 
-    return config;
-}
-
-let cachedConfig: AppConfig | null = null;
-let cachedPath: string | null = null;
-
-export async function loadConfig(confPath: string = '/program.conf'): Promise<AppConfig> {
-    if (cachedConfig && cachedPath === confPath) return cachedConfig;
-
-    try {
-        const response = await fetch(confPath);
-        if (!response.ok) throw new Error(`HTTP ${response.status}`);
-        const text = await response.text();
-        const parsed = parseINI(text);
-        cachedConfig = mergeConfig(parsed);
-        cachedPath = confPath;
-    } catch (e) {
-        console.warn(`Could not load ${confPath}, using defaults:`, e);
-        cachedConfig = structuredClone(DEFAULTS);
-        cachedPath = confPath;
-    }
-
-    // Apply theme CSS variables
-    const root = document.documentElement;
-    root.style.setProperty('--glass-opacity', String(cachedConfig.theme.glass_opacity));
-    root.style.setProperty('--glass-blur', `${cachedConfig.theme.glass_blur}px`);
-    root.style.setProperty('--color-primary', cachedConfig.theme.primary);
-    root.style.setProperty('--color-accent', cachedConfig.theme.accent);
-    root.style.setProperty('--color-gold', cachedConfig.theme.gold);
-
-    return cachedConfig;
-}
-
-export function getConfig(): AppConfig {
-    return cachedConfig ?? structuredClone(DEFAULTS);
+    // Apply defaults logic here if needed
+    // For now, return what we parsed
+    return config as AppConfig;
 }
