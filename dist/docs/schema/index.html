@@ -1,12 +1,7 @@
-/* empty css                                     */
-import { c as createComponent, r as renderComponent, a as renderTemplate, m as maybeRenderHead } from '../../chunks/astro/server_6cs0tMQa.mjs';
-import 'kleur/colors';
-import 'html-escaper';
-import { $ as $$Layout } from '../../chunks/Layout_CcH1_L3r.mjs';
-export { renderers } from '../../renderers.mjs';
-
-const $$Schema = createComponent(($$result, $$props, $$slots) => {
-  return renderTemplate`${renderComponent($$result, "Layout", $$Layout, { "title": "Letter Schema \u2014 Love Letters \u{1F48C}", "description": "Formal specification for .conf letter files." }, { "default": ($$result2) => renderTemplate` ${maybeRenderHead()}<main class="min-h-screen pt-16 pb-20 px-4 sm:px-6"> <div class="max-w-3xl mx-auto"> <!-- Header --> <div class="py-10 sm:py-16 border-b border-pink-500/10"> <p class="text-xs font-mono text-pink-400/50 tracking-wider uppercase mb-3">
+<!DOCTYPE html><html lang="en"> <head><meta charset="UTF-8"><meta name="description" content="Formal specification for .conf letter files."><meta name="viewport" content="width=device-width"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><meta name="generator" content="Astro v4.16.19"><title>Letter Schema — Love Letters 💌</title><meta name="astro-view-transitions-enabled" content="true"><meta name="astro-view-transitions-fallback" content="animate"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"><link rel="stylesheet" href="/_astro/_slug_.B8Xe5oN4.css">
+<link rel="stylesheet" href="/_astro/architecture.N0agx_PU.css"><script type="module" src="/_astro/hoisted.1FdYwair.js"></script></head> <body class="bg-[#050505] text-[#FDFBF7] overflow-x-hidden selection:bg-[#D4AF37]/30 selection:text-[#1A1A1A]"> <!-- Navigation --> <nav class="fixed top-6 left-1/2 -translate-x-1/2 z-50 transition-all duration-500 transform" id="main-nav"> <div class="glass-panel px-8 py-3 rounded-full flex items-center gap-8 shadow-2xl backdrop-blur-xl bg-[#050505]/60 hover:border-[#D4AF37]/40 transition-colors"> <a href="/" class="font-serif font-bold text-xl tracking-tight text-[#D4AF37] hover:text-[#FDFBF7] transition-colors relative group">
+Remark
+<span class="absolute -bottom-1 left-0 w-0 h-[1px] bg-[#D4AF37] transition-all group-hover:w-full"></span> </a> <div class="h-4 w-px bg-[#D4AF37]/20"></div> <div class="flex items-center gap-6 text-sm font-medium text-[#FDFBF7]/70"> <a href="/create?lang=en" class="hover:text-[#D4AF37] transition-colors">Compose</a> <a href="/docs/manifesto" class="hover:text-[#D4AF37] transition-colors">Manifesto</a> </div> </div> </nav>  <main class="min-h-screen pt-16 pb-20 px-4 sm:px-6"> <div class="max-w-3xl mx-auto"> <!-- Header --> <div class="py-10 sm:py-16 border-b border-pink-500/10"> <p class="text-xs font-mono text-pink-400/50 tracking-wider uppercase mb-3">
 Documentation
 </p> <h1 class="font-display text-3xl sm:text-5xl font-bold text-pink-100 mb-4">
 Letter Schema
@@ -17,7 +12,7 @@ Formal specification for <code class="text-pink-400 bg-pink-950/50 px-1.5 py-0.5
 Overview
 </h2> <div class="space-y-3 text-sm text-pink-300/70 leading-relaxed"> <p>
 Each letter is a single <code class="text-pink-400 bg-pink-950/40 px-1 rounded">.conf</code> file placed in <code class="text-pink-400 bg-pink-950/40 px-1 rounded">public/letters/</code>.
-</p> <p> <strong class="text-pink-200">Filename format:</strong> <code class="text-pink-400 bg-pink-950/40 px-1 rounded">${`{name}-{4-hex-hash}.conf`}</code> </p> <p>
+</p> <p> <strong class="text-pink-200">Filename format:</strong> <code class="text-pink-400 bg-pink-950/40 px-1 rounded">{name}-{4-hex-hash}.conf</code> </p> <p>
 The filename becomes the URL slug: <code class="text-pink-400 bg-pink-950/40 px-1 rounded">james-a3f8.conf</code> → <code class="text-pink-400 bg-pink-950/40 px-1 rounded">/james-a3f8</code> </p> <p>
 Generate a hash: <code class="text-pink-400 bg-pink-950/40 px-1 rounded">openssl rand -hex 2</code> </p> </div> </section> <!-- Sections --> <section class="py-10 border-b border-pink-500/10"> <h2 class="text-xl sm:text-2xl font-bold text-pink-200 mb-6">
 Sections
@@ -65,26 +60,11 @@ gold = <span class="text-amber-400">#fbbf24</span>
 glass_opacity = <span class="text-blue-300">0.10</span>
 glass_blur = <span class="text-blue-300">12</span></code></pre> </section> <!-- File naming --> <section class="py-10"> <h2 class="text-xl sm:text-2xl font-bold text-pink-200 mb-6">
 File Naming Convention
-</h2> <div class="space-y-4 text-sm text-pink-300/70"> <div class="p-4 rounded-xl" style="background: rgba(10,3,15,0.6); border: 1px solid rgba(244,114,182,0.1);"> <p class="font-mono text-pink-400 mb-2"> ${`public/letters/{name}-{hash}.conf`} </p> <ul class="space-y-1 text-xs text-pink-300/50"> <li>
+</h2> <div class="space-y-4 text-sm text-pink-300/70"> <div class="p-4 rounded-xl" style="background: rgba(10,3,15,0.6); border: 1px solid rgba(244,114,182,0.1);"> <p class="font-mono text-pink-400 mb-2"> public/letters/{name}-{hash}.conf </p> <ul class="space-y-1 text-xs text-pink-300/50"> <li>
 • <strong class="text-pink-200/70">name</strong> —
                                 lowercase, 1–32 chars, letters/numbers/hyphens
 </li> <li>
 • <strong class="text-pink-200/70">hash</strong> —
                                 4 hex characters (generate: <code class="text-pink-400 bg-pink-950/40 px-1 rounded">openssl rand -hex 2</code>)
 </li> <li>
-• URL becomes: <code class="text-pink-400 bg-pink-950/40 px-1 rounded">yoursite.com/name-hash</code> </li> </ul> </div> </div> </section> </div> </main> ` })}`;
-}, "/home/arepo/LOGOS/PRAGMA/SOFTWARE/valentines/src/pages/docs/schema.astro", void 0);
-
-const $$file = "/home/arepo/LOGOS/PRAGMA/SOFTWARE/valentines/src/pages/docs/schema.astro";
-const $$url = "/docs/schema";
-
-const _page = /*#__PURE__*/Object.freeze(/*#__PURE__*/Object.defineProperty({
-    __proto__: null,
-    default: $$Schema,
-    file: $$file,
-    url: $$url
-}, Symbol.toStringTag, { value: 'Module' }));
-
-const page = () => _page;
-
-export { page };
+• URL becomes: <code class="text-pink-400 bg-pink-950/40 px-1 rounded">yoursite.com/name-hash</code> </li> </ul> </div> </div> </section> </div> </main>   </body> </html>

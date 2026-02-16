@@ -14,6 +14,8 @@ const themes = Object.entries(SCENE_THEME_META).map(([key, meta]) => ({
 }));
 
 const lang = (Astro.url.searchParams.get("lang") as Lang) || "en";
+
+import { t, type Lang } from "../lib/i18n";
 ---
 
 <Layout

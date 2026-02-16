@@ -1,0 +1,54 @@
+<!DOCTYPE html><html lang="en"> <head><meta charset="UTF-8"><meta name="description" content="How to create themes, compose music, and earn royalties on Hearth."><meta name="viewport" content="width=device-width"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><meta name="generator" content="Astro v4.16.19"><title>Artist Guide - Heirloom Docs</title><meta name="astro-view-transitions-enabled" content="true"><meta name="astro-view-transitions-fallback" content="animate"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"><link rel="stylesheet" href="/_astro/_slug_.B8Xe5oN4.css">
+<style>.intro[data-astro-cid-g2x577a5]{font-size:1.1em;line-height:1.6;color:#ffffffe6;margin-bottom:2rem;padding-bottom:2rem;border-bottom:1px solid rgba(255,255,255,.1)}strong[data-astro-cid-g2x577a5]{color:var(--color-gold)}h2[data-astro-cid-g2x577a5]{color:var(--color-accent);font-family:Playfair Display,serif;margin-top:3rem;margin-bottom:1rem}h3[data-astro-cid-g2x577a5]{font-family:Playfair Display,serif}ul[data-astro-cid-g2x577a5]{padding-left:1rem;list-style:none}li[data-astro-cid-g2x577a5]{margin-bottom:.5rem;position:relative}li[data-astro-cid-g2x577a5]:before{content:"•";color:var(--color-accent);position:absolute;left:-1rem}
+</style>
+<link rel="stylesheet" href="/_astro/architecture.N0agx_PU.css"><script type="module" src="/_astro/hoisted.1FdYwair.js"></script></head> <body class="bg-[#050505] text-[#FDFBF7] overflow-x-hidden selection:bg-[#D4AF37]/30 selection:text-[#1A1A1A]"> <!-- Navigation --> <nav class="fixed top-6 left-1/2 -translate-x-1/2 z-50 transition-all duration-500 transform" id="main-nav"> <div class="glass-panel px-8 py-3 rounded-full flex items-center gap-8 shadow-2xl backdrop-blur-xl bg-[#050505]/60 hover:border-[#D4AF37]/40 transition-colors"> <a href="/" class="font-serif font-bold text-xl tracking-tight text-[#D4AF37] hover:text-[#FDFBF7] transition-colors relative group">
+Remark
+<span class="absolute -bottom-1 left-0 w-0 h-[1px] bg-[#D4AF37] transition-all group-hover:w-full"></span> </a> <div class="h-4 w-px bg-[#D4AF37]/20"></div> <div class="flex items-center gap-6 text-sm font-medium text-[#FDFBF7]/70"> <a href="/create?lang=en" class="hover:text-[#D4AF37] transition-colors">Compose</a> <a href="/docs/manifesto" class="hover:text-[#D4AF37] transition-colors">Manifesto</a> </div> </div> </nav>  <div class="max-w-4xl mx-auto px-6 py-24 min-h-screen relative z-10"> <!-- Breadcrumb --> <div class="flex items-center gap-3 text-sm text-[#FDFBF7]/40 mb-12 font-mono tracking-widest uppercase"> <a href="/" class="hover:text-[#D4AF37] transition-colors border-b border-transparent hover:border-[#D4AF37]">Heirloom</a> <span class="text-[#D4AF37]">/</span> <a href="/docs/roadmap" class="hover:text-[#D4AF37] transition-colors border-b border-transparent hover:border-[#D4AF37]">Archives</a>  <span class="text-[#D4AF37]">/</span> <span class="text-[#D4AF37] font-bold"> Artists </span>  </div> <!-- Header --> <header class="mb-16 border-b border-[#D4AF37]/20 pb-8"> <div class="flex items-center gap-6 mb-6"> <span class="text-5xl animate-float filter drop-shadow-[0_0_15px_rgba(212,175,55,0.3)]"> 🎨 </span> <h1 class="text-6xl font-serif font-bold text-[#FDFBF7] tracking-tight"> Artist Guide </h1> </div> <p class="text-2xl text-[#FDFBF7]/70 leading-relaxed max-w-2xl font-serif italic"> How to create themes, compose music, and earn royalties on Hearth. </p> </header> <!-- Content --> <article class="prose prose-invert prose-lg max-w-none
+      prose-headings:font-serif prose-headings:text-[#D4AF37]
+      prose-p:text-[#FDFBF7]/80 prose-p:font-sans prose-p:leading-relaxed
+      prose-a:text-[#D4AF37] hover:prose-a:text-[#E5C56C] prose-a:transition-colors
+      prose-strong:text-[#FDFBF7] prose-code:text-[#D4AF37] prose-pre:border prose-pre:border-[#D4AF37]/20">  <div class="intro" data-astro-cid-g2x577a5> <p data-astro-cid-g2x577a5>
+Hearth is waiting for your art. We are creating a marketplace for 3D
+            environments, character skins, and audio tracks. Contribute to the
+            "Hallmark 2.0" ecosystem and earn perpetual royalties.
+</p> </div> <h2 data-astro-cid-g2x577a5>1. Contributing Themes</h2> <p data-astro-cid-g2x577a5>
+A Theme in Hearth is more than just a background image. It controls the
+        entire atmosphere: fog, lighting, ground textures, and particle systems.
+</p> <div class="glass-panel p-6 my-8 border border-white/10 rounded-xl" data-astro-cid-g2x577a5> <h3 class="text-xl font-bold text-accent mb-4" data-astro-cid-g2x577a5>Theme Spec (v1.0)</h3> <pre class="bg-black/40 p-4 rounded-lg text-xs font-mono text-white/80 overflow-x-auto border border-white/10" data-astro-cid-g2x577a5>interface SceneTheme &#123;
+    label: string;          // e.g. "Cyberpunk City"
+    fogColor: number;       // Hex color for distance fog
+    fogDensity: number;     // 0.01 to 0.1
+    groundColor: number;    // Base color of the infinite plane
+    ambientColor: number;   // Global illumination tint
+    tone: 'warm' | 'cool' | 'mystical' | 'solemn';
+&#125;
+    </pre> <p class="mt-4 text-sm text-white/70" data-astro-cid-g2x577a5>
+To submit a theme, create a Pull Request with your theme definition
+            in <code data-astro-cid-g2x577a5>src/lib/config.ts</code>
+and include 3 high-quality screenshots.
+</p> </div> <h2 data-astro-cid-g2x577a5>2. 3D Assets (GLB)</h2> <p data-astro-cid-g2x577a5>We support standard glTF 2.0 binary files (`.glb`) for scene props.</p> <ul class="space-y-2 mt-4 text-white/70" data-astro-cid-g2x577a5> <li data-astro-cid-g2x577a5> <strong data-astro-cid-g2x577a5>Poly Count</strong>: Keep individual props under 5,000 tris.
+</li> <li data-astro-cid-g2x577a5> <strong data-astro-cid-g2x577a5>Textures</strong>: Max 1024x1024. Use compressed KTX2 if
+            possible.
+</li> <li data-astro-cid-g2x577a5> <strong data-astro-cid-g2x577a5>Animations</strong>: Bake animations into the GLB. Loopable
+            idle animations are preferred.
+</li> </ul> <h2 data-astro-cid-g2x577a5>3. Audio Tracks</h2> <p data-astro-cid-g2x577a5>
+Music is the emotional core of Hearth. We accept original compositions
+        in the following categories:
+</p> <div class="grid grid-cols-2 gap-4 my-6" data-astro-cid-g2x577a5> <div class="p-4 border border-white/10 rounded-lg bg-white/5" data-astro-cid-g2x577a5> <h4 class="font-bold text-white mb-2" data-astro-cid-g2x577a5>Piano / Classical</h4> <p class="text-xs text-white/50" data-astro-cid-g2x577a5>Romantic, timeless, acoustic.</p> </div> <div class="p-4 border border-white/10 rounded-lg bg-white/5" data-astro-cid-g2x577a5> <h4 class="font-bold text-white mb-2" data-astro-cid-g2x577a5>Lo-Fi / Ambient</h4> <p class="text-xs text-white/50" data-astro-cid-g2x577a5>Relaxing, modern, nostalgic.</p> </div> <div class="p-4 border border-white/10 rounded-lg bg-white/5" data-astro-cid-g2x577a5> <h4 class="font-bold text-white mb-2" data-astro-cid-g2x577a5>Cinematic</h4> <p class="text-xs text-white/50" data-astro-cid-g2x577a5>Epic, swelling, emotional.</p> </div> <div class="p-4 border border-white/10 rounded-lg bg-white/5" data-astro-cid-g2x577a5> <h4 class="font-bold text-white mb-2" data-astro-cid-g2x577a5>Nature / SFX</h4> <p class="text-xs text-white/50" data-astro-cid-g2x577a5>Rain, forest, ocean sounds.</p> </div> </div> <h2 data-astro-cid-g2x577a5>4. Royalty Model</h2> <p data-astro-cid-g2x577a5>
+When the NFT marketplace launches (Phase 3), artists will receive a <strong data-astro-cid-g2x577a5>30% direct revenue share</strong>
+on mints using their assets.
+</p> <ul data-astro-cid-g2x577a5> <li data-astro-cid-g2x577a5>Smart contracts handle automatic payouts.</li> <li data-astro-cid-g2x577a5>
+Artists retain IP rights; Hearth gets a non-exclusive perpetual
+            license.
+</li> <li data-astro-cid-g2x577a5>Top-tier artists get "Featured" placement in the Composer UI.</li> </ul> <h2 data-astro-cid-g2x577a5>5. Critique & Quality Assurance</h2> <p data-astro-cid-g2x577a5>
+We aim for <strong data-astro-cid-g2x577a5>"Pixar-lite"</strong> quality.
+</p> <ul data-astro-cid-g2x577a5> <li data-astro-cid-g2x577a5> <strong data-astro-cid-g2x577a5>Cohesion</strong>: Assets must look good together. Avoid
+            mixing low-poly with photoreal.
+</li> <li data-astro-cid-g2x577a5> <strong data-astro-cid-g2x577a5>Optimized</strong>: Assets must load fast on mobile (under
+            2MB total scene).
+</li> <li data-astro-cid-g2x577a5> <strong data-astro-cid-g2x577a5>Accessibility</strong>: Colors must have sufficient
+            contrast. Audio shouldn't be jarring.
+</li> </ul>  </article> <!-- Footer --> <footer class="mt-24 pt-12 border-t border-[#D4AF37]/10 text-center text-[#FDFBF7]/30 text-xs font-mono tracking-widest uppercase"> <p>
+&copy; 2026 Heirloom Protocol. Permanent Digital
+                Artifacts.
+</p> </footer> </div>   </body> </html> 
